@@ -2,7 +2,7 @@
 const siteMetadata = {
   title: 'Being curious',
   author: 'Qin Wan',
-  headerTitle: 'QinWanBlog',
+  headerTitle: 'QinBlog',
   description: 'A blog created with Next.js and Tailwind.css',
   language: 'en-us',
   theme: 'dark', // system, dark or light
