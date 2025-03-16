@@ -1,0 +1,44 @@
+---
+title: 'Run singularity with gpu support under WSL'
+date: '2025-03-16'
+lastmod: '2025-03-16'
+tags: ['container', 'singularity', 'nvidia', 'gpu', 'wsl']
+draft: false
+summary: ''
+images: []
+---
+
+## Issue
+
+run a gromacs gpu container under WSL will encounter a driver issue. 
+
+
+```bash
+singularity run --nv -B .:/host_pwd --pwd /host_pwd docker://nvcr.io/hpc/gromacs:2023.2 ls
+```
+
+```
+INFO:	Using cached SIF image
+ERROR Failed to verify GPU driver: Failed to detect host CUDA driver version: nvml init failed: Unable to load the NVML library
+FATAL Please double check that GPU passthrough is enabled: `--nv` (Singularity), `--gpus all` (Docker)
+```
+
+## Solution
+
+add the `--nvccli` option
+
+```bash
+singularity run --nv --nvccli -B .:/host_pwd --pwd /host_pwd docker://nvcr.io/hpc/gromacs:2023.2 ls
+```
+
+
+## Extra Notes
+
+- "Because the --nvccli functionality is a new, and still experimental, feature the pre-built packages are not setup to use it by default. Open the file /etc/singularity/singularity.conf in an editor (e.g. nano /etc/singularity/singularity.conf) and find the line that begins nvidia-container-cli path =. Change it to read"
+- Sometimes the configuration file can be found in another place: `/usr/local/etc/singularity`
+
+## Reference
+
+[^1]: https://sylabs.io/2022/03/wsl2-gpu/
+
+
